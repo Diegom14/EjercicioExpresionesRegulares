@@ -8,34 +8,36 @@ import re # expresiones regulares
 #Un	link al Youtube	del	artista
 
 
+	
 
-if __name__ == "__main__":
-    # descargar una url
-    url = 'http://musicbrainz.org/search?query=metallica&type=artist&method=indexed'
-    response = urlopen(url)
-    html = response.read()
-    html = html.decode('utf-8')
+banda = input("Banda :")
+banda = banda.replace(" ","+")
 
+
+url = "http://musicbrainz.org/search?query="+banda+"&type=artist&method=indexed"
+
+response = urlopen(url)
+
+html = response.read()
+html = html.decode('utf-8')
+
+#lleva al link con mayor score
+link = re.findall(r'<a href="/artist/([^<]+)" title=',html)
+url = "http://musicbrainz.org/artist/"+link[0]
+response = urlopen(url)
+html = response.read()
+html = html.decode('utf-8')
+
+#busca el la fecha de inicio, pais de origen y youtube de la banda
+
+youtube = re.findall(r'<a href="//www.youtube([^<]+)">[^<]+</a>', html)
+fundacion = re.findall(r'<dt>Founded:</dt>\n<dd>([^<]+)', html)
+paisOrigen = re.findall(r'<dd class="area"><span class="+[^<]+"><a href="+[^<]+"><bdi>([^<]+)</bdi></a></span></dd>', html)
     
-    #lleva al link con mayor score
-    link = re.findall(r'<a href="/artist/([^<]+)" title=', html)
-    url = "http://musicbrainz.org/artist/"+link[0]
-	response = urlopen(url)
-    html = response.read()
-    html = html.decode('utf-8')
+#imprime la información
+for i in range(len(youtube)):
+  	print("Link", i+1,":" ,"www.youtube"+youtube[i])
 
-    #busca el la fecha de inicio, pais de origen y youtube de la banda
+print("Fecha de fundación: ",fundacion[0])
 
-    youtube = re.findall(r'<a href="//www.youtube([^<]+)">[^<]+</a>', html)
-    fundacion = re.findall(r'<dt>Founded:</dt>\n<dd>([^<]+)', html)
-
-    paisOrigen = re.findall(r'<dd class="area"><span class="+[^<]+"><a href="+[^<]+"><bdi>([^<]+)</bdi></a></span></dd>', html)
-    
-
-    #imprime la información
-    for i in range(len(youtube)):
-    	print("Link", i+1,":" ,"www.youtube"+youtube[i])
-
-    print("Fecha de fundación: ",fundacion[0])
-
-    print("Pais de origen :",paisOrigen[0])
+print("Pais de origen :",paisOrigen[0])
