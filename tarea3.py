@@ -11,18 +11,20 @@ import re # expresiones regulares
 
 if __name__ == "__main__":
     # descargar una url
-    url = 'http://musicbrainz.org/artist/65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab'
+    url = 'http://musicbrainz.org/artist/e99f6d62-f62b-4e1e-8593-33d5696d85f0'
     response = urlopen(url)
     html = response.read()
     html = html.decode('utf-8')
 
-    youtube = re.findall(r' <a href="//([^<]+)">[^<]+VEVO', html)
-    youtube2 = re.findall(r' <a href="//([^<]+)">[^<]+TV', html)
-    
+    youtube = re.findall(r'<a href="//www.youtube([^<]+)">[^<]+</a>', html)
     fundacion = re.findall(r'<dt>Founded:</dt>\n<dd>([^<]+)', html)
 
-    print("Link 1: ",youtube[0],"\n","Link 2: ",youtube2[0])
+    paisOrigen = re.findall(r'<dd class="area"><span class="+[^<]+"><a href="+[^<]+"><bdi>([^<]+)</bdi></a></span></dd>', html)
+    
+    for i in range(len(youtube)):
+    	print("Link", i+1,":" ,"www.youtube"+youtube[i])
 
-    print("Fecha de fundación: ",fundacion[0])
+    print("Fecha de fundación: ",fundacion)
 
+    print(paisOrigen)
     
