@@ -21,6 +21,8 @@ if __name__ == "__main__":
     
     fundacion = re.findall(r'<dt>Founded:</dt>\n<dd>([^<]+)', html)
 
+    print("Link 1: ",youtube[0],"\n","Link 2: ",youtube2[0])
 
+    print("Fecha de fundación: ",fundacion[0])
 
-    print(fundacion)
+    
