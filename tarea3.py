@@ -18,4 +18,9 @@ if __name__ == "__main__":
 
     youtube = re.findall(r' <a href="//([^<]+)">[^<]+VEVO', html)
     youtube2 = re.findall(r' <a href="//([^<]+)">[^<]+TV', html)
-    print(youtube,youtube2)
+    
+    fundacion = re.findall(r'<dt>Founded:</dt>\n<dd>([^<]+)', html)
+
+
+
+    print(fundacion)
