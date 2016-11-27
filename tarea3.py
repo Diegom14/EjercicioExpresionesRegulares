@@ -9,11 +9,11 @@ import sys
 
 #Nombre de la banda como parámetro
 	
-#banda = sys.argv
-#nombre = banda[1]
-#if len(banda)>2:
-#	for i in range(2,len(banda)):
-#		nombre = nombre+"+"+banda[i]
+banda = sys.argv
+nombre = banda[1]
+if len(banda)>2:
+	for i in range(2,len(banda)):
+		nombre = nombre+"+"+banda[i]
 
 
 url = "http://musicbrainz.org/artist/90270118-8ed0-4446-bf97-8a09b3f9e8f3"
@@ -30,7 +30,7 @@ response = urlopen(url)
 html = response.read()
 html = html.decode('utf-8')
 
-#busca el la fecha de inicio, pais de origen y youtube de la banda
+#busca el la fecha de inicio, pais de origen y youtube de la banda o solista
 tipo = re.findall(r'<dd class="type">([^<]+)</dd>', html)
 
 if tipo[0] =="Group":
