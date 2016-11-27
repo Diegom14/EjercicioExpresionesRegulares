@@ -16,7 +16,7 @@ if len(banda)>2:
 		nombre = nombre+"+"+banda[i]
 
 
-url = "http://musicbrainz.org/artist/90270118-8ed0-4446-bf97-8a09b3f9e8f3"
+url = "http://musicbrainz.org/search?query="+nombre+"&type=artist&method=indexed"
 
 response = urlopen(url)
 
