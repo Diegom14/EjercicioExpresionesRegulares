@@ -1,20 +1,22 @@
 from urllib.request import urlopen # descargar una url
 import re # expresiones regulares
-
+import sys
 #Fecha de fundación	o inicio	
 #País de origen	
 #Los álbumes publicados	en los últimos 10 años	
 #Los últimos 10	singles		
 #Un	link al Youtube	del	artista
 
-
+#Nombre de la banda como parámetro
 	
+banda = sys.argv
+nombre = banda[1]
+if len(banda)>2:
+	for i in range(2,len(banda)):
+		nombre = nombre+"+"+banda[i]
 
-banda = input("Banda :")
-banda = banda.replace(" ","+")
 
-
-url = "http://musicbrainz.org/search?query="+banda+"&type=artist&method=indexed"
+url = "http://musicbrainz.org/search?query="+nombre+"&type=artist&method=indexed"
 
 response = urlopen(url)
 
