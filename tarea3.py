@@ -43,9 +43,19 @@ youtube = re.findall(r'<a href="//www.youtube([^<]+)">[^<]+</a>', html)
 paisOrigen = re.findall(r'<dd class="area"><span class="+[^<]+"><a href="+[^<]+"><bdi>([^<]+)</bdi></a></span></dd>', html)
     
 #imprime la información
-for i in range(len(youtube)):
-  	print("Link", i+1,":" ,"www.youtube"+youtube[i])
 
-print("Fecha de fundación: ",fundacion[0])
 
-print("Pais de origen :",paisOrigen[0])
+if len(youtube)>0:
+	for i in range(len(youtube)):
+  		print("Link", i+1,":" ,"www.youtube"+youtube[i])
+else:
+	print("No hay informacion")
+if len(fundacion)>0:
+	print("Fecha de fundación: ",fundacion[0])
+else:
+	print("No hay informacion")
+
+if len(paisOrigen)>0:
+	print("Pais de origen :",paisOrigen[0])
+else:
+	print("No hay informacion")
