@@ -59,3 +59,17 @@ if len(paisOrigen)>0:
 	print("Pais de origen :",paisOrigen[0])
 else:
 	print("No hay informacion")
+
+album=re.findall(r'<td><a href="/release-group/([^<]+)"><bdi>([^<]+)',html)#<bdi>([^<]+)
+album_year=re.findall(r'<td class="c">([0-9]{4})',html)
+
+for i in range(10):
+    url1="https://musicbrainz.org/release-group/"+album[i][0]
+    response1 = urlopen(url1)
+    html1= response1.read()
+    html1 = html1.decode('utf-8')
+
+    albums=re.findall(r'<dd class="type">([^<]+)',html1)
+    if albums[0]=="Album":
+        print (album[i][1])
+        print(album_year[i])
