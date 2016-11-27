@@ -9,14 +9,14 @@ import sys
 
 #Nombre de la banda como parámetro
 	
-banda = sys.argv
-nombre = banda[1]
-if len(banda)>2:
-	for i in range(2,len(banda)):
-		nombre = nombre+"+"+banda[i]
+#banda = sys.argv
+#nombre = banda[1]
+#if len(banda)>2:
+#	for i in range(2,len(banda)):
+#		nombre = nombre+"+"+banda[i]
 
 
-url = "http://musicbrainz.org/search?query="+nombre+"&type=artist&method=indexed"
+url = "http://musicbrainz.org/artist/90270118-8ed0-4446-bf97-8a09b3f9e8f3"
 
 response = urlopen(url)
 
@@ -31,9 +31,15 @@ html = response.read()
 html = html.decode('utf-8')
 
 #busca el la fecha de inicio, pais de origen y youtube de la banda
+tipo = re.findall(r'<dd class="type">([^<]+)</dd>', html)
+
+if tipo[0] =="Group":
+	fundacion = re.findall(r'<dt>Founded:</dt>\n<dd>([^<]+)', html)
+elif tipo[0] == "Person":
+	fundacion = re.findall(r'<dt>Born:</dt>\n<dd>([^<]+)', html)
 
 youtube = re.findall(r'<a href="//www.youtube([^<]+)">[^<]+</a>', html)
-fundacion = re.findall(r'<dt>Founded:</dt>\n<dd>([^<]+)', html)
+
 paisOrigen = re.findall(r'<dd class="area"><span class="+[^<]+"><a href="+[^<]+"><bdi>([^<]+)</bdi></a></span></dd>', html)
     
 #imprime la información
