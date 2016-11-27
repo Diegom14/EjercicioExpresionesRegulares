@@ -42,6 +42,10 @@ youtube = re.findall(r'<a href="//www.youtube([^<]+)">[^<]+</a>', html)
 
 paisOrigen = re.findall(r'<dd class="area"><span class="+[^<]+"><a href="+[^<]+"><bdi>([^<]+)</bdi></a></span></dd>', html)
     
+album=re.findall(r'<td><a href="/release-group/([^<]+)"><bdi>([^<]+)',html)#<bdi>([^<]+)
+
+album_year=re.findall(r'<td class="c">([0-9]{4})',html)
+
 #imprime la información
 
 
@@ -60,16 +64,28 @@ if len(paisOrigen)>0:
 else:
 	print("No hay informacion")
 
-album=re.findall(r'<td><a href="/release-group/([^<]+)"><bdi>([^<]+)',html)#<bdi>([^<]+)
-album_year=re.findall(r'<td class="c">([0-9]{4})',html)
+albumes = []
+años = []
+i = 0
 
-for i in range(10):
+while(True):
+
     url1="https://musicbrainz.org/release-group/"+album[i][0]
     response1 = urlopen(url1)
     html1= response1.read()
     html1 = html1.decode('utf-8')
 
     albums=re.findall(r'<dd class="type">([^<]+)',html1)
-    if albums[0]=="Album":
-        print (album[i][1])
-        print(album_year[i])
+    if albums[0]=="Album" and int(album_year[i]) > 2005:
+    	print("Album: ",album[i][1],"Año: ",album_year[i])
+    	
+    elif albums[0]!="Album":
+    	break
+    i = i + 1
+
+
+
+
+
+
+
