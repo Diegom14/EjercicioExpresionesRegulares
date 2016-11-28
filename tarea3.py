@@ -14,6 +14,7 @@ nombre = banda[1]
 if len(banda)>2:
 	for i in range(2,len(banda)):
 		nombre = nombre+"+"+banda[i]
+		
 
 
 url = "http://musicbrainz.org/search?query="+nombre+"&type=artist&method=indexed"
@@ -79,7 +80,7 @@ while(True):
     if albums[0]!="Album" or i>=len(album_year):
     	break
     if re.findall(r'[0-9]{4}',album_year[i]):
-    	if albums[0]=="Album" and int(album_year[i]) > 2005:  
+    	if int(album_year[i]) > 2005:  
     		print("Album: ",album[i][1],"Año: ",album_year[i])
     	
     
