@@ -76,11 +76,15 @@ while(True):
     html1 = html1.decode('utf-8')
 
     albums=re.findall(r'<dd class="type">([^<]+)',html1)
-    if albums[0]=="Album" and int(album_year[i]) > 2005:
-    	print("Album: ",album[i][1],"Año: ",album_year[i])
-    	
-    elif albums[0]!="Album":
+
+    if albums[0]!="Album" or i>=len(album_year):
     	break
+    if re.findall(r'[0-9]{4}',album_year[i]):
+    	if albums[0]=="Album" and int(album_year[i]) > 2005:  
+    		print("Album: ",album[i][1],"Año: ",album_year[i])
+    	
+    
+    	
     i = i + 1
 
 
