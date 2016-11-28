@@ -64,8 +64,7 @@ if len(paisOrigen)>0:
 else:
 	print("No hay informacion")
 
-albumes = []
-años = []
+
 i = 0
 
 while(True):
