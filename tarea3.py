@@ -118,7 +118,7 @@ if len(pages)==0:
 if len(pages)>0:
     pages.sort()
     NPages=pages[len(pages)-1]
-    for i in range(1,NPages):
+    for i in range(1,int(NPages)+1):
         urlReleases="http://musicbrainz.org/artist/"+link[0]+"?page="+str(i)
         response2 = urlopen(urlReleases)
         html2 = response2.read()
