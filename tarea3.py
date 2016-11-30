@@ -41,11 +41,7 @@ elif tipo[0] == "Person":
 
 youtube = re.findall(r'<a href="//www.youtube([^<]+)">[^<]+</a>', html)
 
-paisOrigen = re.findall(r'<dd class="area"><span class="+[^<]+"><a href="+[^<]+"><bdi>([^<]+)</bdi></a></span></dd>', html)
-    
-album=re.findall(r'<td><a href="/release-group/([^<]+)"><bdi>([^<]+)',html)#<bdi>([^<]+)
-
-album_year=re.findall(r'<td class="c">([0-9]{4})',html)
+paisOrigen = re.findall(r'<dd class="area"><span class="+[^<]+"><a href="+[^<]+"><bdi>([^<]+)</bdi></a></span></dd>', html)    
 
 #imprime la información
 
@@ -65,27 +61,36 @@ if len(paisOrigen)>0:
 else:
 	print("No hay informacion")
 
+#si el grupo tiene muchos lanzamientos estaran indexados por paginas.
+pages = re.findall(r"http://musicbrainz.org/artist/"+link[0]+r"[?]+page=([0-9]{1})",html)
+pages.sort()
+NPages=pages[len(pages)-1]
+#Esto es lento para bandas que tienen muchos lanzamientos, debido a que es necesario buscar en todos los lanzamientos
+#Para los albumes de estudio no, pero para los singles si ya que no se sabe en que pagina estan
+#Por lo tanto lo mas sensato es hacer una busqueda por todos los lanzamientos y hacer las dos tareas al mismo tiempo.
+Albums=[]
+Singles=[]
+for i in range(1,int(NPages)-1):
+    #print("pagina ",i)
+    urlReleases="http://musicbrainz.org/artist/"+link[0]+"?page="+str(i)
+    response2 = urlopen(urlReleases)
+    html2 = response2.read()
+    html2 = html2.decode('utf-8')
 
-i = 0
+    #en cada una de las indexaciones se buscara los lanzamientos
+    album=re.findall(r'<td><a href="/release-group/([^<]+)"><bdi>([^<]+)',html2)
+    album_year=re.findall(r'<td class="c">([0-9]{4})',html2)
+	#ahora es necesario ingresar a los links de los albumes y verificar su informacion
+    for j in range(len(album)-1):
+        
+        url1="https://musicbrainz.org/release-group/"+album[j][0]
+        response1 = urlopen(url1)
+        html1= response1.read()
+        html1 = html1.decode('utf-8')
 
-while(True):
-
-    url1="https://musicbrainz.org/release-group/"+album[i][0]
-    response1 = urlopen(url1)
-    html1= response1.read()
-    html1 = html1.decode('utf-8')
-
-    albums=re.findall(r'<dd class="type">([^<]+)',html1)
-
-    if albums[0]!="Album" or i>=len(album_year):
-    	break
-    if re.findall(r'[0-9]{4}',album_year[i]):
-    	if int(album_year[i]) > 2005:  
-    		print("Album: ",album[i][1],"Año: ",album_year[i])
-    	
-    
-    	
-    i = i + 1
+        tipo=re.findall(r'<dd class="type">([^<]+)',html1)
+        if tipo[0]=='Album':
+            print(tipo)
 
 
 
